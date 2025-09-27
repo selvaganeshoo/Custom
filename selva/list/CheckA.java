@@ -1,25 +1,24 @@
 public class CheckA{
 	public static void main(String[] args){
 		ArrayList a = new ArrayList();
-		a.add("hello");
-		a.add("hi");
-		a.add("Object");
-		a.add("how");
-		a.add("are");
-		a.add("you");
-		a.add(1);
-		a.add(2);
-		a.add(3);
-		a.add(4);
-		System.out.println(a.contains("you"));
-		System.out.println(a.capacity());
-		a.add("new");
-		a.add("Object1");
-		a.add(24);
-		System.out.println(a.capacity());
-		a.trimSize();
-		System.out.println("capacity: "+a.capacity());
-		System.out.println(a);
-		System.out.println("index: "+a.size());
+		a.add(100);
+		a.add(200);
+		System.out.println("Added 100 and 200: "+a);
+		System.out.println("Remove 100 by value -> "+a.remove((Object) 100));
+		System.out.println("Remove 200 by value -> "+a.remove((Object) 200));
+		System.out.println("After remove: "+a);
+		a.clear();
+		a.add("cat");
+		a.add(new String("dog"));
+		System.out.println("Before remove strings: "+a);
+		System.out.println("Remove cat literal ->" + a.remove("cat"));
+		System.out.println("Remove new String(dog) -> "+a.remove(new String("dog")));
+		System.out.println("After remove strings: "+ a);
+		a.clear();
+		a.add(50);
+		a.add(60);
+		System.out.println("Before remove int 50: "+ a);
+		a.remove((Object) 50);
+		System.out.println("After remove 50 using(Object) cast: "+a);
 	}
 }

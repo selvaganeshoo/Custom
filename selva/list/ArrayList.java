@@ -5,10 +5,13 @@ public class ArrayList{
 	private Object[] al;
 	public ArrayList(){
 		this.index = -1;
-		this.capacity = 0;
+		this.capacity = 10;
 		this.al = new Object[capacity];
 	}
 	public ArrayList(int capacity){
+		if(capacity<0){
+			throw new IllegalArgumentException("Should be positive number");
+		}
 		this. capacity = capacity;
 		this.index = -1;
 		this.al = new Object[capacity];
@@ -22,9 +25,9 @@ public class ArrayList{
 	@Override
 	public String toString(){
 		StringBuilder sb = new StringBuilder("[");
-		for(int i=0;i<=index;i++){
+		for(int i=0;i<size();i++){
 			sb.append(al[i]);
-			if(i<index){
+			if(i<size()-1){
 				sb.append(",");
 			}
 		}
@@ -32,7 +35,7 @@ public class ArrayList{
 		return sb.toString();
 	}
 	private String outOfBound(int ind){
-		return "Index: "+ ind + " size: " + index;
+		return "Index: "+ ind + " size: " + size();
 	}
 	private void grow(){
 		this.capacity+=10;
@@ -49,42 +52,40 @@ public class ArrayList{
 		}
 	}
 	public boolean add(Object o){
-	if(index+1 == capacity){
+	if(size() == capacity){
 		grow();
 	}
 	al[++index] = o;
 	return true;
 	}
 	public Object remove(int ind){
-		Object var1 = al[ind];
+		if(ind<0||ind > index){
+			throw new ArrayIndexOutOfBoundsException(this.outOfBound(ind));
+		}
+		Object removed = al[ind];
 		swapper(ind);
-		--index;
-		return var1;
+		al[index--] = null;
+		return removed;
 	}
 	public boolean remove(Object o){
 		for(int i=0;i<=index;i++){
-			if(al[i] == o){
-				swapper(i);
-				--index;
+			if(o==null ? al[i] == null : o.equals(al[i])){
+				remove(i);
 				return true;
 			}
 		}
 		return false;
 	}
 	public void add(int ind,Object o){
-		if(index+1 == capacity){
+		if(size() == capacity){
 			grow();
-			swifter(ind);
-			++index;
-			al[ind] = o;
 		}
-		else if(ind >= index+2||ind<0){
+		if(ind >= size()||ind<0){
 			throw new ArrayIndexOutOfBoundsException(this.outOfBound(ind));
-		}else if(index+1 < capacity) {
-			swifter(ind);
-			++index;
-			al[ind] = o;
 		}
+		swifter(ind);
+		++index;
+		al[ind] = o;
 	}
 	public Object set(int ind,Object o){
 		if(ind>index||ind<0){
@@ -110,7 +111,7 @@ public class ArrayList{
 	}
 	public int indexOf(Object o){
 		for(int i=0;i<=index;i++){
-			if(al[i] == o){
+			if(o==null ? al[i] == null : o.equals(al[i])){
 				return i;
 			}
 		}
@@ -118,7 +119,7 @@ public class ArrayList{
 	}
 	public int lastIndexOf(Object o){
 		for(int i=index;i>=0;i--){
-			if(al[i] == o){
+			if(o==null ? al[i] == null : o.equals(al[i])){
 				return i;
 			}
 		}
@@ -128,7 +129,7 @@ public class ArrayList{
 		return indexOf(o)>=0;
 	}
 	public void trimSize(){
-		this.capacity = index+1;
+		this.capacity = size();
 		al = Arrays.copyOf(al,capacity);
 	}
 }
